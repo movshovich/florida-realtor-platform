@@ -1,12 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Production schema with PostgreSQL
+// Use this for deployment: cp schema.production.prisma schema.prisma
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -45,8 +45,8 @@ model Contact {
   state       String?  @default("FL")
   zipCode     String?
   type        String   @default("LEAD") // LEAD, CLIENT, PAST_CLIENT, REFERRAL_SOURCE
-  tags        String   @default("[]") // JSON string for SQLite compatibility
-  notes       String?
+  tags        String[] // Array for PostgreSQL
+  notes       String?  @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -75,7 +75,7 @@ model Deal {
   commission      Float?
   expectedCloseDate DateTime?
   status          String   @default("ACTIVE") // ACTIVE, WON, LOST, ON_HOLD
-  notes           String?
+  notes           String?  @db.Text
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -94,7 +94,7 @@ model Task {
   contactId   String?
   dealId      String?
   title       String
-  description String?
+  description String?  @db.Text
   dueDate     DateTime?
   priority    String   @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
   completed   Boolean  @default(false)
@@ -116,7 +116,7 @@ model Interaction {
   contactId   String
   type        String   // EMAIL, CALL, MEETING, TEXT, NOTE
   subject     String?
-  notes       String?
+  notes       String?  @db.Text
   dateTime    DateTime @default(now())
   createdAt   DateTime @default(now())
 
@@ -152,7 +152,7 @@ model LeadSource {
   type        String
   qualityTier String   // BRONZE, SILVER, GOLD, PLATINUM
   basePrice   Float
-  description String?
+  description String?  @db.Text
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -182,3 +182,4 @@ model PurchasedLead {
 
   @@map("purchased_leads")
 }
+
