@@ -1,0 +1,30 @@
+🚀 QUICK DEPLOYMENT INSTRUCTIONS
+================================
+
+✅ Frontend is already deployed: https://frontend-78y7317t7-movshovichs-projects.vercel.app
+✅ Code is on GitHub: https://github.com/movshovich/florida-realtor-platform
+
+📦 DEPLOY BACKEND TO RENDER (5 minutes):
+
+1. Go to: https://dashboard.render.com
+2. Click "New" → "Web Service"
+3. Connect GitHub: movshovich/florida-realtor-platform
+4. Settings:
+   - Name: florida-realtor-backend
+   - Root Directory: backend
+   - Build: npm install && npx prisma generate
+   - Start: npm start
+5. Add PostgreSQL database (New → PostgreSQL)
+6. Set Environment Variables:
+   DATABASE_URL=(from PostgreSQL)
+   JWT_SECRET=9dbPFimD4Qpsnhe2cn3UDPTN0SZmlRU22udMWX7zDPE=
+   JWT_EXPIRES_IN=7d
+   FRONTEND_URL=https://frontend-78y7317t7-movshovichs-projects.vercel.app
+   NODE_ENV=production
+   PORT=10000
+7. Deploy!
+8. In Shell: npx prisma migrate deploy && npm run seed
+9. Copy backend URL
+10. Update Vercel: Add NEXT_PUBLIC_API_URL = backend URL
+
+Done! 🎉
