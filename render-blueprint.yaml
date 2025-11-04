@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: florida-realtor-backend
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install && npx prisma generate
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        value: https://frontend-78y7317t7-movshovichs-projects.vercel.app
+
+databases:
+  - name: florida-realtor-db
+    databaseName: florida_realtor_db
+    user: florida_realtor_user
+    plan: free
